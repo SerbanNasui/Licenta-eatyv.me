@@ -491,3 +491,23 @@ iframe {
         color: #000;
     }
 }
+
+
+////////////////////////
+
+.scrollToTop{
+  position: fixed;
+  bottom: 80px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: #f0ad4e;
+  color: #333444;
+  display: none;
+  border-radius: 50%;
+}
+.scrollToTop:hover{
+  background: #555555;
+}
