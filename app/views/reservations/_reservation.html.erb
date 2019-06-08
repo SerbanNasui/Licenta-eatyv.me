@@ -1,0 +1,38 @@
+<%= render 'reservations/form' %>
+
+<% if current_user == @recipe.user %>
+  <% @reservations.each do |reservation| %>
+    <div class='callout warning'>
+      <p>First Name: <b><%= reservation.first_name %></b></p>
+      <p>Last Name: <b><%= reservation.last_name %></b></p>
+      <p>Number of persons: <b><%= reservation.persons %></b></p>
+      <p>Arrives at: <b><%= reservation.time %></b></p>
+      <p><em><%= reservation.message %></em></p>
+      <p><%= reservation.user.email %> (<%= reservation.created_at.strftime("%Y-%d-%m") %>)</p>
+      <p>Total: <b><%= reservation.final_price %></b></p>
+    </div>
+    <br>
+    <br>
+  <% end %>
+<% end %>
+
+
+
+<% unless current_user.blank? %>
+  <% @reservations.each do |reservation| %>
+    <% if current_user.id == reservation.user_id %>
+      <div class='callout warning'>
+        <p>First Name: <b><%= reservation.first_name %></b></p>
+        <p>Last Name: <b><%= reservation.last_name %></b></p>
+        <p>Number of persons: <b><%= reservation.persons %></b></p>
+        <p>Arrives at: <b><%= reservation.time %></b></p>
+        <p><em><%= reservation.message %></em></p>
+        <p><%= reservation.user.email %> (<%= reservation.created_at.strftime("%Y-%d-%m") %>)</p>
+        <p>Total: <b><%= reservation.final_price %></b></p>
+      </div>
+      <br>
+      <br>
+    <% end %>
+  <% end %>
+<% end %>
+

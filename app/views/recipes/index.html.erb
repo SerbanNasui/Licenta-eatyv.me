@@ -1,0 +1,100 @@
+<% if !user_signed_in? %>
+  <div class="home_background">
+    <div class="home_background-content">
+      <div class="medium-6 medium-centered columns">
+      <h1><%= image_tag 'logo.png', width: '300' %></h1>
+      <br>
+        <div class="input-group input-group-rounded">
+          <%= form_tag recipes_path, :method => 'get' do %>
+            <%= text_field_tag :search, nil, placeholder: "Search recipe by city", class: 'input-group-field'%>
+          <% end %>
+          <div class="input-group-button">
+            <input type="submit" class="button search-button" id="click" value="&#128269;">
+          </div>
+        </div>
+      </div>
+    <br>
+      <p><strong>EatYV</strong> is a community marketplace/platform where people host,<br> discover and book unique venues around the world.</p>
+    <div class="small-6 small-centered columns">
+      <%= link_to 'Get Started', new_user_registration_path, class: 'button warning expanded'  %>
+      <%= link_to 'Sign In', new_user_session_path, class: 'button warning expanded' %>
+    </div>
+    </div>
+  </div>
+  <div class="home_about">
+    <div class="row">
+      <div class="medium-6 medium-push-6 columns">
+
+        <p class="lead"><strong>EatYV</strong> is a community marketplace/platform where people host, discover and book unique venues around the world.
+        <br><br>
+        Whether you are a student, employed or retired, you can have a unique travelling experience by eating at at host's/chef's house or list your home on EatYV and become a host/chef yourself and create recipes at any price point. Meeting new people has never been tastier!
+        </p>
+      </div>
+
+      <div class="medium-6 medium-pull-6 columns">
+        <p class="info">
+          <iframe width="480" height="270" src="https://www.youtube.com/embed/Jbb2VIqoRF4" frameborder="0" allowfullscreen></iframe>
+        </p>
+      </div>
+    </div>
+
+    <div class="row small-up-2 medium-up-3 large-up-4">
+      <% @recipes.each do |recipe| %>
+        <div class="column column-block">
+          <hr>
+          <%= link_to recipe do %>
+            <%= image_tag recipe.image_url(:thumb) %>
+          <% end %>
+          <h3><%= recipe.title %></h3>
+          <p class="text-center"> <%= image_tag 'icon-price.png', width: '20' %> <%= recipe.price %> RON</p>
+          <p class="text-center"> <%= image_tag 'icon-date.png', width: '20' %> <%= recipe.date %>, <%= recipe.time %>
+          </p>
+          <p class="text-center"> <%= image_tag 'icon-location.png', width: '20' %> <%= recipe.location %>, <%= recipe.city %></p>
+        </div>
+      <%end%>
+    </div>
+    <%= will_paginate @recipes %>
+  </div>
+  <footer>
+    <div class="bottom-bar">
+          <a href="https://www.facebook.com/EatYourVegetable" class="facebook" target="_blank"><%= image_tag 'icon-fb.png', width: '15' %></a>
+          All Rights Reserved © 2017 <a class="contact" href="mailto:contact@eatyv.me"><%= image_tag 'icon-contact.png', width: '17' %></a>
+    </div>
+  </footer>
+<% end %>
+
+
+<% if user_signed_in? %>
+  <br>
+  <div class="small-6 small-centered columns">
+    <div class="white_background no-padding">
+      <div class="input-group input-group-rounded">
+        <%= form_tag recipes_path, :method => 'get' do %>
+          <%= text_field_tag :search, nil, placeholder: "Search recipe by city", class: 'input-group-field'%>
+        <% end %>
+        <div class="input-group-button">
+          <input type="submit" class="button search-button scrollbutton" value="&#128269;">
+        </div>
+      </div>
+      <div class="featured-image-block-grid">
+        <div class="featured-image-block column">
+        <%= will_paginate @recipes %>
+          <% @recipes.each do |recipe| %>
+          <hr>
+            <br>
+            <%= link_to recipe do %>
+              <%= image_tag recipe.image_url(:thumb) %>
+            <% end %>
+            <h3><%= recipe.title %></h3>
+            <p class="text-center"> <%= image_tag 'icon-price.png', width: '20' %> <%= recipe.price %> RON</p>
+            <p class="text-center"> <%= image_tag 'icon-date.png', width: '20' %> <%= recipe.date %>, <%= recipe.time %>
+            </p>
+            <p class="text-center"> <%= image_tag 'icon-location.png', width: '20' %> <%= recipe.location %>, <%= recipe.city %></p>
+            <p class="text-center"><%= recipe.description.truncate(150) %></p>
+          <%end%>
+          <%= will_paginate @recipes %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
