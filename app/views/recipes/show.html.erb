@@ -57,6 +57,10 @@
       <strong>Description:</strong>
       <%= @recipe.description %>
     </p>
+    <% if user_signed_in?%><p>
+      <strong>User contact:</strong>
+      <%= @recipe.user.email %> 
+    </p><% end %>
   </div>
   
   <%= link_to '&#x276e;'.html_safe, recipes_path, class: 'hollow button secondary' %>
