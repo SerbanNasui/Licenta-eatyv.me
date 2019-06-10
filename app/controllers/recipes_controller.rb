@@ -24,6 +24,11 @@ class RecipesController < ApplicationController
   def edit
   end
 
+  def your_own_recipes
+    @own_recipes = current_user.recipes 
+  end
+
+
   # POST /recipes
   # POST /recipes.json
   def create
