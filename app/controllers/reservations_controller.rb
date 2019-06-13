@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :find_recipe, except: [ :cancel_reservation]
+  before_action :find_recipe, except: [ :cancel_reservation, :honored_reservation]
 
   def create
     @reservation = @recipe.reservations.new(reservation_params)
@@ -24,6 +24,14 @@ class ReservationsController < ApplicationController
     recipe = Recipe.find(reservation.recipe_id)
     recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
     reservation.update_attributes(cancel_reservation: true)
+    redirect_to root_path
+  end
+
+  def honored_reservation
+    reservation = Reservation.find(params[:id])
+    recipe = Recipe.find(reservation.recipe_id)
+    recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
+    reservation.update_attributes(honored_reservation: true)
     redirect_to root_path
   end
 

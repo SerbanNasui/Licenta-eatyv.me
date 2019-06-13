@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get 'cancel_reservation', to: 'reservations#cancel_reservation'
 
+  get 'honored_reservation', to: 'reservations#honored_reservation'
+
   resources :recipes do
     resources :reservations
     resources :reviews
