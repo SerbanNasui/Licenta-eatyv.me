@@ -5,9 +5,12 @@ class ReservationsController < ApplicationController
     @reservation = @recipe.reservations.new(reservation_params)
     @reservation.user_id = current_user.id
     @reservation.price = @recipe.price
-    if @reservation.persons == nil
-      @reservation.persons = 0
+    if @reservation.persons == nil || @reservation.persons == 0
+      @reservation.persons = 1
     end
+
+    @recipe.update_attributes(no_people: @recipe.no_people - @reservation.persons)
+
     @reservation.final_price = @reservation.persons * @recipe.price
     @reservation.save
 
@@ -17,7 +20,10 @@ class ReservationsController < ApplicationController
   end
 
   def cancel_reservation
-    Reservation.find(params[:id]).update_attributes(cancel_reservation: true)
+    reservation = Reservation.find(params[:id])
+    recipe = Recipe.find(reservation.recipe_id)
+    recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
+    reservation.update_attributes(cancel_reservation: true)
     redirect_to root_path
   end
 

@@ -10,7 +10,7 @@
       </div>
       <br>
       <div class="field">
-        <%= f.number_field :persons, placeholder: :persons %>
+        <%= f.number_field :persons, placeholder: :persons, max: @recipe.no_people %>
       </div>
       <br>
       <div class="field">
