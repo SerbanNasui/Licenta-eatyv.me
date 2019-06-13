@@ -18,7 +18,3 @@ How to run the test suite run: rake test to run all tests
 Services (job queues, cache servers, search engines, etc.)
 
 Deployment instructions It depends, we can talk about that.
-
-
-rake db:seed -> admin page
-user&pass in seeds.rb
