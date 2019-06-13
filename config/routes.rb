@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   root 'recipes#index'
 
   get 'your_own_recipes', to: 'recipes#your_own_recipes'
+
+  get 'cancel_reservation', to: 'reservations#cancel_reservation'
+
   resources :recipes do
     resources :reservations
     resources :reviews

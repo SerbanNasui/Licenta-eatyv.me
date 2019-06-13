@@ -10,6 +10,9 @@
       <p><em><%= reservation.message %></em></p>
       <p><%= reservation.user.email %> (<%= reservation.created_at.strftime("%Y-%d-%m") %>)</p>
       <p>Total: <b><%= reservation.final_price %></b></p>
+      <% if reservation&.cancel_reservation == true %>
+        Anulat!
+      <%end%>
     </div>
     <br>
     <br>
@@ -29,10 +32,14 @@
         <p><em><%= reservation.message %></em></p>
         <p><%= reservation.user.email %> (<%= reservation.created_at.strftime("%Y-%d-%m") %>)</p>
         <p>Total: <b><%= reservation.final_price %></b></p>
+        <% if reservation&.cancel_reservation.nil? %>
+          <%= link_to '&#10006;'.html_safe, cancel_reservation_path(id: reservation.id), data: { confirm: 'Are you sure?' }, class: 'hollow button alert' %>
+        <%else%>
+          Anulat!
+        <%end%>
       </div>
       <br>
       <br>
     <% end %>
   <% end %>
 <% end %>
-
