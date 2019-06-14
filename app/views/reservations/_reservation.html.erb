@@ -11,15 +11,13 @@
       <p><%= reservation.user.email %> (<%= reservation.created_at.strftime("%Y-%d-%m") %>)</p>
       <p>Total: <b><%= reservation.final_price %></b></p>
 
-      <% if reservation&.honored_reservation.nil? %>
-          <%= link_to '&#10004;'.html_safe, honored_reservation_path(id: reservation.id), data: { confirm: 'Are you sure?' }, class: 'hollow button success' %>
-        <%else%>
-          Honored!
-      <%end%>
-
       <% if reservation&.cancel_reservation == true %>
-        Anulat!
-      <%end%>
+        <b><i><font color="red">Canceled reservation!</font></i></b>
+      <% elsif reservation&.honored_reservation.nil? %>
+        <%= link_to '&#10004;'.html_safe, honored_reservation_path(id: reservation.id), data: { confirm: 'Are you sure?' }, class: 'hollow button success' %>
+      <% else %>
+        <b><i><font color="green">Honored reservation!</font></i></b>
+      <% end %>
 
 
     </div>
@@ -45,14 +43,12 @@
 
 
         <% if reservation&.honored_reservation == true %>
-          Honored!
-        <%end%>
-
-        <% if reservation&.cancel_reservation.nil? %>
+          <b><i><font color="green">Honored reservation!</font></i></b>
+        <% elsif reservation&.cancel_reservation.nil? %>
           <%= link_to '&#10006;'.html_safe, cancel_reservation_path(id: reservation.id), data: { confirm: 'Are you sure?' }, class: 'hollow button alert' %>
-        <%else%>
-          Anulat!
-        <%end%>
+        <% else %>
+          <b><i><font color="red">Canceled reservation!</font></i></b>
+        <% end %>
 
 
       </div>
