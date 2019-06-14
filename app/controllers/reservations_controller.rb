@@ -32,7 +32,7 @@ class ReservationsController < ApplicationController
     recipe = Recipe.find(reservation.recipe_id)
     recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
     reservation.update_attributes(honored_reservation: true)
-    redirect_to root_path
+    redirect_to recipe_path(recipe.id)
   end
 
 
