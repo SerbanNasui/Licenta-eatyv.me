@@ -4,7 +4,7 @@
     <div class="column column-block">
         <hr>
         <%= link_to recipe do %>
-        <%= image_tag recipe.image_url(:thumb) %>   
+            <%= image_tag recipe.image_url(:thumb) %>   
         <% end %>
         <h3><%= recipe.title %></h3>
         <p class="text-center"> <%= image_tag 'icon-price.png', width: '20' %> <%= recipe.price %> RON</p>

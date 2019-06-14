@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get 'honored_reservation', to: 'reservations#honored_reservation'
 
+  get 'your_reservations', to: 'reservations#your_reservations'
+
   resources :recipes do
     resources :reservations
     resources :reviews

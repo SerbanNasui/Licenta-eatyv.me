@@ -1,0 +1,28 @@
+<div class="row small-up-2 medium-up-3 large-up-4">
+<h2>Your reservations</h2>
+<% unless current_user.blank? %>
+    <% @own_reservations.each do |reservations| %>
+        <div class='callout warning'>
+        <p>First Name: <b><%= reservations.first_name %></b></p>
+        <p>Last Name: <b><%= reservations.last_name %></b></p>
+        <p>Number of persons: <b><%= reservations.persons %></b></p>
+        <p>Arrives at: <b><%= reservations.time %></b></p>
+        <p><em><%= reservations.message %></em></p>
+        <p><%= reservations.user.email %> (<%= reservations.created_at.strftime("%Y-%d-%m") %>)</p>
+        <p>Total: <b><%= reservations.final_price %></b></p>
+
+        
+
+        <% if reservations&.honored_reservation == true %>
+          <b><i><font color="green">Honored reservation!</font></i></b>
+        <% elsif reservations&.cancel_reservation.nil? %>
+          <%= link_to '&#10006;'.html_safe, cancel_reservation_path(id: reservations.id), data: { confirm: 'Are you sure?' }, class: 'hollow button alert' %>
+        <% else %>
+          <b><i><font color="red">Canceled reservation!</font></i></b>
+        <% end %>
+
+      </div>
+    <% end %>
+<% end %>
+</div>
+<a href="#" class="scrollToTop"><i class="fa fa-arrow-up" aria-hiden="true"></i></a>

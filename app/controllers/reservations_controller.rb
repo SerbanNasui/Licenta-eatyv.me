@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :find_recipe, except: [ :cancel_reservation, :honored_reservation]
+  before_action :find_recipe, except: [ :cancel_reservation, :honored_reservation, :your_reservations]
 
   def create
     @reservation = @recipe.reservations.new(reservation_params)
@@ -37,6 +37,9 @@ class ReservationsController < ApplicationController
     redirect_to recipe_path(recipe.id)
   end
 
+  def your_reservations
+    @own_reservations = current_user.reservations 
+  end
 
   private
   def find_recipe
