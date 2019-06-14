@@ -48522,3 +48522,2113 @@ Processing by RecipesController#index as HTML
 Completed 200 OK in 433ms (Views: 424.5ms | ActiveRecord: 3.7ms)
 
 
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (45.9ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", :environment]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", :environment]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", :environment]]
+  [1m[35m (392.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "eatyv-rails_development"[0m
+  [1m[35m (226.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "eatyv-rails_test"[0m
+  [1m[35m (421.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying PRIMARY KEY)[0m
+  [1m[35m (79.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5879606748684865560);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.9ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to DeviseCreateUsers (20170328145429)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (73.4ms)[0m  [1m[35mCREATE TABLE "users" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" inet, "last_sign_in_ip" inet, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (39.4ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_email" ON "users"  ("email")[0m
+  [1m[35m (28.3ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_users_on_reset_password_token" ON "users"  ("reset_password_token")[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170328145429"]]
+  [1m[35m (18.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateRecipes (20170328151853)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (82.4ms)[0m  [1m[35mCREATE TABLE "recipes" ("id" serial primary key, "title" character varying, "price" decimal, "description" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170328151853"]]
+  [1m[35m (12.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddReferencesToRecipes (20170328151941)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "recipes" ADD "user_id" integer[0m
+  [1m[35m (35.4ms)[0m  [1m[35mCREATE  INDEX  "index_recipes_on_user_id" ON "recipes"  ("user_id")[0m
+  [1m[35m (4.5ms)[0m  [1m[35mALTER TABLE "recipes" ADD CONSTRAINT "fk_rails_9606fce865"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170328151941"]]
+  [1m[35m (19.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateReservations (20170330215532)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (96.3ms)[0m  [1m[35mCREATE TABLE "reservations" ("id" serial primary key, "first_name" character varying, "last_name" character varying, "persons" integer, "time" character varying, "message" text, "user_id" integer, "recipe_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_48a92fce51"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_656be8b5b5"
+FOREIGN KEY ("recipe_id")
+  REFERENCES "recipes" ("id")
+)[0m
+  [1m[35m (55.7ms)[0m  [1m[35mCREATE  INDEX  "index_reservations_on_user_id" ON "reservations"  ("user_id")[0m
+  [1m[35m (41.5ms)[0m  [1m[35mCREATE  INDEX  "index_reservations_on_recipe_id" ON "reservations"  ("recipe_id")[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170330215532"]]
+  [1m[35m (13.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddPriceToReservations (20170331091822)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "reservations" ADD "price" decimal[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170331091822"]]
+  [1m[35m (19.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddFinalPriceToReservations (20170331121531)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[35mALTER TABLE "reservations" ADD "final_price" decimal[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170331121531"]]
+  [1m[35m (10.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateReviews (20170406231755)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (127.8ms)[0m  [1m[35mCREATE TABLE "reviews" ("id" serial primary key, "comment" text, "grade" integer, "user_id" integer, "recipe_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_74a66bd6c5"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_a47e2057ed"
+FOREIGN KEY ("recipe_id")
+  REFERENCES "recipes" ("id")
+)[0m
+  [1m[35m (50.1ms)[0m  [1m[35mCREATE  INDEX  "index_reviews_on_user_id" ON "reviews"  ("user_id")[0m
+  [1m[35m (41.3ms)[0m  [1m[35mCREATE  INDEX  "index_reviews_on_recipe_id" ON "reviews"  ("recipe_id")[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170406231755"]]
+  [1m[35m (13.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddImageToRecipes (20170408131000)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "recipes" ADD "image" character varying[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170408131000"]]
+  [1m[35m (20.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddFieldsToRecipes (20170512080351)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[35mALTER TABLE "recipes" ADD "date" character varying[0m
+  [1m[35m (0.7ms)[0m  [1m[35mALTER TABLE "recipes" ADD "time" decimal[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "recipes" ADD "street" character varying[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "recipes" ADD "city" character varying[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "recipes" ADD "location" character varying[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170512080351"]]
+  [1m[35m (15.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to DeviseCreateAdminUsers (20170515065031)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (97.2ms)[0m  [1m[35mCREATE TABLE "admin_users" ("id" serial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" inet, "last_sign_in_ip" inet, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (51.2ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_admin_users_on_email" ON "admin_users"  ("email")[0m
+  [1m[35m (41.0ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_admin_users_on_reset_password_token" ON "admin_users"  ("reset_password_token")[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170515065031"]]
+  [1m[35m (12.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateActiveAdminComments (20170515065034)
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (98.4ms)[0m  [1m[35mCREATE TABLE "active_admin_comments" ("id" serial primary key, "namespace" character varying, "body" text, "resource_type" character varying, "resource_id" integer, "author_type" character varying, "author_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (41.1ms)[0m  [1m[35mCREATE  INDEX  "index_active_admin_comments_on_resource_type_and_resource_id" ON "active_admin_comments"  ("resource_type", "resource_id")[0m
+  [1m[35m (41.5ms)[0m  [1m[35mCREATE  INDEX  "index_active_admin_comments_on_author_type_and_author_id" ON "active_admin_comments"  ("author_type", "author_id")[0m
+  [1m[35m (58.4ms)[0m  [1m[35mCREATE  INDEX  "index_active_admin_comments_on_namespace" ON "active_admin_comments"  ("namespace")[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170515065034"]]
+  [1m[35m (13.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddNoPeopleToRecipes (20170521192510)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[35mALTER TABLE "recipes" ADD "no_people" integer[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170521192510"]]
+  [1m[35m (21.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddCancelReservationToReservations (20190613182948)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "reservations" ADD "cancel_reservation" boolean[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190613182948"]]
+  [1m[35m (22.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddHonoredReservationToReservation (20190613220310)
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[35mALTER TABLE "reservations" ADD "honored_reservation" boolean[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20190613220310"]]
+  [1m[35m (21.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", 2019-06-14 13:20:38 UTC], ["updated_at", 2019-06-14 13:20:38 UTC]]
+  [1m[35m (16.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT pg_advisory_unlock(5879606748684865560)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mAdminUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "admin_users" WHERE "admin_users"."email" = $1 LIMIT $2[0m  [["email", "admin@example.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "admin_users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "admin@example.com"], ["encrypted_password", "$2a$11$nV98PzuLJk8kAdl7MQU4Ae1pUlDAYzz5QxCgRg9420BFi0fOIDSyC"], ["created_at", 2019-06-14 13:20:46 UTC], ["updated_at", 2019-06-14 13:20:46 UTC]]
+  [1m[35m (1335.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "chef_andrei@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "chef_andrei@gmail.com"], ["encrypted_password", "$2a$11$IfsFtGKMpJQ/c3CVDAIIoudR/F6FH1cImu.hSbXp38VLYt1D7eFEi"], ["created_at", 2019-06-14 13:20:48 UTC], ["updated_at", 2019-06-14 13:20:48 UTC]]
+  [1m[35m (19.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "chef_ionut@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "chef_ionut@gmail.com"], ["encrypted_password", "$2a$11$grNBdwME.5EI6oMWli8X8e2sn.qIidXiOXYx2rQe26TpguCR0TLUC"], ["created_at", 2019-06-14 13:20:48 UTC], ["updated_at", 2019-06-14 13:20:48 UTC]]
+  [1m[35m (17.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "user_mihai@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "user_mihai@gmail.com"], ["encrypted_password", "$2a$11$gj0nFFONf8ziziEaElyDh.KhzDbBT2iLw.Q1p5XPHjcV2.CDv2Sdm"], ["created_at", 2019-06-14 13:20:48 UTC], ["updated_at", 2019-06-14 13:20:48 UTC]]
+  [1m[35m (24.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "user_ioana@gmail.com"], ["LIMIT", 1]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "users" ("email", "encrypted_password", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["email", "user_ioana@gmail.com"], ["encrypted_password", "$2a$11$3NAiYAHRoUxUVrR5JUYBFOgmlEm8ghVQIOZ.8vj4Wj1W9rDiqnCxm"], ["created_at", 2019-06-14 13:20:48 UTC], ["updated_at", 2019-06-14 13:20:48 UTC]]
+  [1m[35m (13.0ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:27:12 +0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (440.1ms)
+  Rendered layouts/_nav.html.erb (0.4ms)
+Completed 200 OK in 728ms (Views: 713.3ms | ActiveRecord: 3.8ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2019-06-14 16:27:14 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (1.6ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (13.7ms)
+  Rendered layouts/_nav.html.erb (0.5ms)
+Completed 200 OK in 240ms (Views: 238.7ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2019-06-14 16:27:17 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"b0E0DuQeejfuwyOZ/n83RxNSN3nlB9+SKjqrAiuUmgZnJgUmEoIdOYZ5HgxVVRGvUcZDtt3sKJL2CPrLpM8iMQ==", "user"=>{"email"=>"chef_andrei@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "chef_andrei@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "users" SET "current_sign_in_at" = $1, "last_sign_in_at" = $2, "current_sign_in_ip" = $3, "last_sign_in_ip" = $4, "sign_in_count" = $5, "updated_at" = $6 WHERE "users"."id" = $7[0m  [["current_sign_in_at", 2019-06-14 13:27:17 UTC], ["last_sign_in_at", 2019-06-14 13:27:17 UTC], ["current_sign_in_ip", "127.0.0.1/32"], ["last_sign_in_ip", "127.0.0.1/32"], ["sign_in_count", 1], ["updated_at", 2019-06-14 13:27:17 UTC], ["id", 1]]
+  [1m[35m (158.8ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 337ms (ActiveRecord: 160.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:27:17 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (22.5ms)
+  Rendered layouts/_nav_user.html.erb (3.1ms)
+  Rendered layouts/_nav.html.erb (4.8ms)
+Completed 200 OK in 268ms (Views: 261.2ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/recipes/new" for 127.0.0.1 at 2019-06-14 16:27:35 +0300
+Processing by RecipesController#new as HTML
+  Rendering recipes/new.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered recipes/_form.html.erb (65.8ms)
+  Rendered recipes/new.html.erb within layouts/application (70.5ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 299ms (Views: 291.2ms | ActiveRecord: 1.7ms)
+
+
+Started POST "/recipes" for 127.0.0.1 at 2019-06-14 16:28:01 +0300
+Processing by RecipesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"FzyrlrxCcA4a1P3SKHr9Bo3G+Q1CKP+yei5CfL4f9/8R4JeGhqfxJnQ/TOm7rLkcTFyGH531OTCyg44KhpnmgQ==", "recipe"=>{"title"=>"Tiramisu", "date"=>"2019-06-21", "time"=>"12", "no_people"=>"3", "street"=>"Str. Vulturului Nr.17 Bl.8", "city"=>"Brasov", "location"=>"RO", "price"=>"20", "image"=>#<ActionDispatch::Http::UploadedFile:0x00007fe5490deba8 @tempfile=#<Tempfile:/tmp/RackMultipart20190614-8120-18m6x6s.jpg>, @original_filename="tiramisu.jpg", @content_type="image/jpeg", @headers="Content-Disposition: form-data; name=\"recipe[image]\"; filename=\"tiramisu.jpg\"\r\nContent-Type: image/jpeg\r\n">, "description"=>"tiramisu"}, "commit"=>"Create Recipe"}
+  [1m[36mUser Load (7.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (2.6ms)[0m  [1m[32mINSERT INTO "recipes" ("title", "price", "description", "created_at", "updated_at", "user_id", "image", "date", "time", "street", "city", "location", "no_people") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"[0m  [["title", "Tiramisu"], ["price", 0.2e2], ["description", "tiramisu"], ["created_at", 2019-06-14 13:28:01 UTC], ["updated_at", 2019-06-14 13:28:01 UTC], ["user_id", 1], ["image", "tiramisu.jpg"], ["date", "2019-06-21"], ["time", 0.12e2], ["street", "Str. Vulturului Nr.17 Bl.8"], ["city", "Brasov"], ["location", "RO"], ["no_people", 3]]
+  [1m[35m (19.2ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 196ms (ActiveRecord: 30.4ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:28:01 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (0.4ms)
+  [1m[36mReservation Load (2.1ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reservations/_reservation.html.erb (9.3ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.6ms)
+  Rendered reviews/_review.html.erb (5.0ms)
+  Rendered recipes/show.html.erb within layouts/application (31.1ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.3ms)
+Completed 200 OK in 231ms (Views: 209.1ms | ActiveRecord: 8.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:28:08 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mRecipe Load (1.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (18.5ms)
+  Rendered layouts/_nav.html.erb (0.3ms)
+Completed 200 OK in 187ms (Views: 184.2ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2019-06-14 16:28:09 +0300
+Processing by Devise::SessionsController#new as HTML
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (0.9ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (6.1ms)
+  Rendered layouts/_nav.html.erb (0.4ms)
+Completed 200 OK in 268ms (Views: 267.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2019-06-14 16:28:12 +0300
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ouUlRrDb5Gd7K39qLLzB59ERNg7z74eQoFK5ogSnl4RouboVUcCJHGOiywLwJ2+r9/DcxaacRbWzMOYs55S/Yw==", "user"=>{"email"=>"user_ioana@gmail.com", "password"=>"[FILTERED]"}, "commit"=>"Log In"}
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "user_ioana@gmail.com"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "users" SET "current_sign_in_at" = $1, "last_sign_in_at" = $2, "current_sign_in_ip" = $3, "last_sign_in_ip" = $4, "sign_in_count" = $5, "updated_at" = $6 WHERE "users"."id" = $7[0m  [["current_sign_in_at", 2019-06-14 13:28:12 UTC], ["last_sign_in_at", 2019-06-14 13:28:12 UTC], ["current_sign_in_ip", "127.0.0.1/32"], ["last_sign_in_ip", "127.0.0.1/32"], ["sign_in_count", 1], ["updated_at", 2019-06-14 13:28:12 UTC], ["id", 4]]
+  [1m[35m (243.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 450ms (ActiveRecord: 245.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:28:12 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (34.8ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 217ms (Views: 210.3ms | ActiveRecord: 2.9ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:28:14 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (22.1ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reservations/_reservation.html.erb (25.0ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (8.1ms)
+  Rendered reviews/_review.html.erb (9.6ms)
+  Rendered recipes/show.html.erb within layouts/application (46.4ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 286ms (Views: 276.1ms | ActiveRecord: 4.5ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:28:25 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"0EsHN4yw36LEeJNHohMyu8E5wOCWjGOhuBT8vxKaTQsKG/91yPohefBgMgK4ia5PGdHbZs2AE4OD5GayTPntLg==", "reservation"=>{"first_name"=>"iou", "last_name"=>"io", "persons"=>"1", "time"=>"7", "message"=>"8"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 2], ["updated_at", 2019-06-14 13:28:25 UTC], ["id", 1]]
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "iou"], ["last_name", "io"], ["persons", 1], ["time", "7"], ["message", "8"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:28:25 UTC], ["updated_at", 2019-06-14 13:28:25 UTC], ["price", 0.2e2]]
+  [1m[35m (32.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:28:25 UTC], ["final_price", 0.2e2], ["id", 1]]
+  [1m[35m (26.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 86ms (ActiveRecord: 63.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:28:25 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (15.8ms)
+  [1m[36mReservation Load (1.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (41.0ms)
+  [1m[36mReview Load (0.7ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (5.4ms)
+  Rendered reviews/_review.html.erb (10.0ms)
+  Rendered recipes/show.html.erb within layouts/application (77.6ms)
+  Rendered layouts/_nav_user.html.erb (1.8ms)
+  Rendered layouts/_nav.html.erb (2.8ms)
+Completed 200 OK in 266ms (Views: 252.4ms | ActiveRecord: 6.8ms)
+
+
+Started GET "/cancel_reservation?id=1" for 127.0.0.1 at 2019-06-14 16:28:30 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mReservation Load (2.5ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 3], ["updated_at", 2019-06-14 13:28:30 UTC], ["id", 1]]
+  [1m[35m (818.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.4ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:28:31 UTC], ["id", 1]]
+  [1m[35m (19.7ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 866ms (ActiveRecord: 844.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:28:31 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (12.6ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 169ms (Views: 164.9ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:28:39 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (4.9ms)
+  [1m[36mReservation Load (0.8ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (11.4ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (3.2ms)
+  Rendered reviews/_review.html.erb (5.5ms)
+  Rendered recipes/show.html.erb within layouts/application (31.5ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 218ms (Views: 201.9ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:29:24 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.8ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (15.0ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (6.9ms)
+  Rendered reviews/_review.html.erb (9.2ms)
+  Rendered recipes/show.html.erb within layouts/application (39.0ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 191ms (Views: 170.1ms | ActiveRecord: 7.6ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:29:35 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"0XAj4AhaBRTFEcLOQViKCr3fTXpaOoETl88C8WwiiaoLINuiTBD7z/EJY4tbwhb+ZTdW/AE28TGsP5j8MkEpjw==", "reservation"=>{"first_name"=>"u", "last_name"=>"u", "persons"=>"1", "time"=>"1", "message"=>"u"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (4.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 2], ["updated_at", 2019-06-14 13:29:36 UTC], ["id", 1]]
+  [1m[35mSQL (1.1ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "u"], ["last_name", "u"], ["persons", 1], ["time", "1"], ["message", "u"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:29:36 UTC], ["updated_at", 2019-06-14 13:29:36 UTC], ["price", 0.2e2]]
+  [1m[35m (308.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:29:36 UTC], ["final_price", 0.2e2], ["id", 2]]
+  [1m[35m (257.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 610ms (ActiveRecord: 576.3ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:29:36 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (5.6ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (14.9ms)
+  Rendered recipes/show.html.erb within layouts/application (30.3ms)
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 3.7ms)
+
+
+  
+ActionView::Template::Error (wrong number of arguments (given 4, expected 0..3)):
+    45:         <% if reservation&.honored_reservation == true %>
+    46:           <b><i><font color="green">Honored reservation!</font></i></b>
+    47:         <% elsif reservation&.cancel_reservation.nil? %>
+    48:           <%= link_to '&#10006;'.html_safe, cancel_reservation_path(id: reservation.id), flash[:cancel_rezervation] = 'Rezervarea a fost anulata',data: { confirm: 'Are you sure?' }, class: 'hollow button alert' %>
+    49:         <% else %>
+    50:           <b><i><font color="red">Canceled reservation!</font></i></b>
+    51:         <% end %>
+  
+app/views/reservations/_reservation.html.erb:48:in `block in _app_views_reservations__reservation_html_erb___3210528343588232895_70311372541600'
+app/views/reservations/_reservation.html.erb:32:in `_app_views_reservations__reservation_html_erb___3210528343588232895_70311372541600'
+app/views/recipes/show.html.erb:75:in `_app_views_recipes_show_html_erb___332544843568292912_70311372635340'
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (12.8ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.5ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (3.0ms)
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (49.7ms)
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:29:46 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.1ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (9.3ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (1.9ms)
+  Rendered reviews/_review.html.erb (3.7ms)
+  Rendered recipes/show.html.erb within layouts/application (23.6ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 189ms (Views: 180.6ms | ActiveRecord: 4.2ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:29:59 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (13.0ms)
+  [1m[36mReservation Load (1.2ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (20.7ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (7.6ms)
+  Rendered reviews/_review.html.erb (10.3ms)
+  Rendered recipes/show.html.erb within layouts/application (50.1ms)
+  Rendered layouts/_nav_user.html.erb (1.5ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 215ms (Views: 188.6ms | ActiveRecord: 8.8ms)
+
+
+Started GET "/cancel_reservation?id=2" for 127.0.0.1 at 2019-06-14 16:30:02 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mReservation Load (1.3ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.2ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 3], ["updated_at", 2019-06-14 13:30:02 UTC], ["id", 1]]
+  [1m[35m (103.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:30:02 UTC], ["id", 2]]
+  [1m[35m (47.2ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 183ms (ActiveRecord: 155.8ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:30:02 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (4.5ms)
+  [1m[36mReservation Load (0.6ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (11.3ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.4ms)
+  Rendered reviews/_review.html.erb (4.2ms)
+  Rendered recipes/show.html.erb within layouts/application (30.8ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 193ms (Views: 183.8ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:31:04 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (11.6ms)
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (18.8ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (8.9ms)
+  Rendered reviews/_review.html.erb (10.8ms)
+  Rendered recipes/show.html.erb within layouts/application (49.4ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.3ms)
+Completed 200 OK in 252ms (Views: 231.6ms | ActiveRecord: 1.9ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:31:13 +0300
+  
+SyntaxError (/home/serban/Desktop/eatyv.me/app/controllers/reservations_controller.rb:28: syntax error, unexpected ':', expecting '}'
+    format.html { notice: 'Reservation was successfully
+                         ^
+/home/serban/Desktop/eatyv.me/app/controllers/reservations_controller.rb:28: syntax error, unexpected '}', expecting keyword_end
+ was successfully canceled.' }
+                              ^
+/home/serban/Desktop/eatyv.me/app/controllers/reservations_controller.rb:48: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/controllers/reservations_controller.rb:28: syntax error, unexpected ':', expecting '}'
+app/controllers/reservations_controller.rb:28: syntax error, unexpected '}', expecting keyword_end
+app/controllers/reservations_controller.rb:48: syntax error, unexpected end-of-input, expecting keyword_end
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (2.8ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.6ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (19.3ms)
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:31:28 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"oMp9au27hDQbYTkX8yQyVhW63rPqOSS93CJcLCvnVYd6moUoqfF67y95mFLpvq6izVLFNbE1VJ/n0sYhdYT1og==", "reservation"=>{"first_name"=>"5", "last_name"=>"1", "persons"=>"1", "time"=>"1", "message"=>"1"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 2], ["updated_at", 2019-06-14 13:31:29 UTC], ["id", 1]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "5"], ["last_name", "1"], ["persons", 1], ["time", "1"], ["message", "1"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:31:29 UTC], ["updated_at", 2019-06-14 13:31:29 UTC], ["price", 0.2e2]]
+  [1m[35m (19.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:31:29 UTC], ["final_price", 0.2e2], ["id", 3]]
+  [1m[35m (12.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 74ms (ActiveRecord: 35.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:31:29 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (2.9ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (9.9ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (8.1ms)
+  Rendered reviews/_review.html.erb (12.8ms)
+  Rendered recipes/show.html.erb within layouts/application (32.8ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 214ms (Views: 203.5ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:31:44 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.0ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (16.1ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (5.7ms)
+  Rendered reviews/_review.html.erb (7.2ms)
+  Rendered recipes/show.html.erb within layouts/application (36.1ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 198ms (Views: 183.3ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/cancel_reservation?id=3" for 127.0.0.1 at 2019-06-14 16:31:47 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 3], ["updated_at", 2019-06-14 13:31:47 UTC], ["id", 1]]
+  [1m[35m (25.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.2ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:31:47 UTC], ["id", 3]]
+  [1m[35m (17.8ms)[0m  [1m[35mCOMMIT[0m
+Completed 500 Internal Server Error in 69ms (ActiveRecord: 46.9ms)
+
+
+  
+ArgumentError (too few arguments):
+  
+app/controllers/reservations_controller.rb:27:in `format'
+app/controllers/reservations_controller.rb:27:in `cancel_reservation'
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (2.7ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.3ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (16.3ms)
+Started GET "/cancel_reservation?id=3" for 127.0.0.1 at 2019-06-14 16:32:05 +0300
+  
+SyntaxError (/home/serban/Desktop/eatyv.me/app/controllers/reservations_controller.rb:28: syntax error, unexpected ':', expecting keyword_end
+    notice: 'Recipe was successfully upda
+           ^):
+  
+app/controllers/reservations_controller.rb:28: syntax error, unexpected ':', expecting keyword_end
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (2.5ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.4ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (16.6ms)
+Started GET "/cancel_reservation?id=3" for 127.0.0.1 at 2019-06-14 16:32:11 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mReservation Load (0.2ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:32:11 UTC], ["id", 1]]
+  [1m[35m (24.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 55ms (ActiveRecord: 29.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:32:11 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (22.5ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 180ms (Views: 173.3ms | ActiveRecord: 4.4ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:32:13 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.7ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (5.4ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (15.1ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (9.0ms)
+  Rendered reviews/_review.html.erb (12.4ms)
+  Rendered recipes/show.html.erb within layouts/application (38.2ms)
+  Rendered layouts/_nav_user.html.erb (1.5ms)
+  Rendered layouts/_nav.html.erb (2.8ms)
+Completed 200 OK in 231ms (Views: 214.7ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:32:52 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.0ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (15.7ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (8.2ms)
+  Rendered reviews/_review.html.erb (10.6ms)
+  Rendered recipes/show.html.erb within layouts/application (40.6ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 191ms (Views: 172.5ms | ActiveRecord: 4.5ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:32:59 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"vqTW1t3ez4SOmzbnVj4+GA57gQ3VbIpc/RPNzN7J4w1k9C6UmZQxX7qDl6JMpKLs1pOai45g+n7G41fBgKpDKA==", "reservation"=>{"first_name"=>"2", "last_name"=>"2", "persons"=>"2", "time"=>"2", "message"=>"2"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 2], ["updated_at", 2019-06-14 13:32:59 UTC], ["id", 1]]
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "2"], ["last_name", "2"], ["persons", 2], ["time", "2"], ["message", "2"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:32:59 UTC], ["updated_at", 2019-06-14 13:32:59 UTC], ["price", 0.2e2]]
+  [1m[35m (23.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:32:59 UTC], ["final_price", 0.4e2], ["id", 4]]
+  [1m[35m (24.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 75ms (ActiveRecord: 52.9ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:32:59 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (2.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (2.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (8.9ms)
+  [1m[36mReservation Load (2.1ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (27.7ms)
+  [1m[36mReview Load (0.6ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (4.4ms)
+  Rendered reviews/_review.html.erb (7.5ms)
+  Rendered recipes/show.html.erb within layouts/application (69.8ms)
+  Rendered layouts/_nav_user.html.erb (3.2ms)
+  Rendered layouts/_nav.html.erb (4.5ms)
+Completed 200 OK in 304ms (Views: 287.8ms | ActiveRecord: 9.5ms)
+
+
+Started GET "/cancel_reservation?id=4" for 127.0.0.1 at 2019-06-14 16:33:02 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"4"}
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:33:02 UTC], ["id", 1]]
+  [1m[35m (22.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:33:02 UTC], ["id", 4]]
+  [1m[35m (23.1ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 60ms (ActiveRecord: 47.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:33:02 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (1.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (39.4ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 229ms (Views: 220.4ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:33:05 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (16.9ms)
+  [1m[36mReservation Load (1.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (51.4ms)
+  [1m[36mReview Load (0.9ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (6.2ms)
+  Rendered reviews/_review.html.erb (11.6ms)
+  Rendered recipes/show.html.erb within layouts/application (90.1ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 297ms (Views: 281.0ms | ActiveRecord: 7.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:33:55 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.6ms)
+  [1m[36mReservation Load (2.2ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (39.6ms)
+  [1m[36mReview Load (1.6ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (4.3ms)
+  Rendered reviews/_review.html.erb (13.4ms)
+  Rendered recipes/show.html.erb within layouts/application (89.5ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 373ms (Views: 358.1ms | ActiveRecord: 9.4ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:33:58 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (4.1ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (14.4ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.4ms)
+  Rendered reviews/_review.html.erb (4.4ms)
+  Rendered recipes/show.html.erb within layouts/application (31.1ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 203ms (Views: 197.2ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:33:59 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (1.7ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (74.3ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 264ms (Views: 255.0ms | ActiveRecord: 5.4ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:34:09 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DrDyfi5LZkgHB9s9xjbquyeg9OtHZ3kiGfiaCT7MjnbU4Ao8agGYkzMfenjcrHZP/0jvbRxrCQAiCAAEYK8uUw==", "reservation"=>{"first_name"=>"45", "last_name"=>"4", "persons"=>"4", "time"=>"4", "message"=>"4"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.7ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (2.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (3.9ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 0], ["updated_at", 2019-06-14 13:34:09 UTC], ["id", 1]]
+  [1m[35mSQL (1.5ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "45"], ["last_name", "4"], ["persons", 4], ["time", "4"], ["message", "4"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:34:09 UTC], ["updated_at", 2019-06-14 13:34:09 UTC], ["price", 0.2e2]]
+  [1m[35m (296.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:34:10 UTC], ["final_price", 0.8e2], ["id", 5]]
+  [1m[35m (27.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 377ms (ActiveRecord: 335.6ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:34:10 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (12.7ms)
+  [1m[36mReservation Load (0.8ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (32.4ms)
+  [1m[36mReview Load (0.5ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (4.2ms)
+  Rendered reviews/_review.html.erb (7.5ms)
+  Rendered recipes/show.html.erb within layouts/application (62.1ms)
+  Rendered layouts/_nav_user.html.erb (1.5ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 251ms (Views: 240.5ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/cancel_reservation?id=5" for 127.0.0.1 at 2019-06-14 16:34:14 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"5"}
+  [1m[36mReservation Load (1.5ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:34:14 UTC], ["id", 1]]
+  [1m[35m (893.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:34:15 UTC], ["id", 5]]
+  [1m[35m (151.5ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 1073ms (ActiveRecord: 1049.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:34:15 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (14.6ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 178ms (Views: 173.0ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:34:18 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (10.3ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 171ms (Views: 169.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:34:35 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (21.1ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 183ms (Views: 177.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:34:52 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (37.3ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (51.7ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (7.2ms)
+  Rendered reviews/_review.html.erb (10.7ms)
+  Rendered recipes/show.html.erb within layouts/application (89.6ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.3ms)
+Completed 200 OK in 315ms (Views: 268.0ms | ActiveRecord: 15.0ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:34:57 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DrDyfi5LZkgHB9s9xjbquyeg9OtHZ3kiGfiaCT7MjnbU4Ao8agGYkzMfenjcrHZP/0jvbRxrCQAiCAAEYK8uUw==", "reservation"=>{"first_name"=>"45", "last_name"=>"4", "persons"=>"4", "time"=>"4", "message"=>"4"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 0], ["updated_at", 2019-06-14 13:34:57 UTC], ["id", 1]]
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "45"], ["last_name", "4"], ["persons", 4], ["time", "4"], ["message", "4"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:34:57 UTC], ["updated_at", 2019-06-14 13:34:57 UTC], ["price", 0.2e2]]
+  [1m[35m (455.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:34:58 UTC], ["final_price", 0.8e2], ["id", 6]]
+  [1m[35m (27.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 520ms (ActiveRecord: 488.2ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:34:58 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.2ms)
+  [1m[36mReservation Load (1.1ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (39.6ms)
+  [1m[36mReview Load (1.1ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (6.8ms)
+  Rendered reviews/_review.html.erb (12.8ms)
+  Rendered recipes/show.html.erb within layouts/application (76.3ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 312ms (Views: 300.6ms | ActiveRecord: 6.1ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:35:01 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (5.8ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (20.7ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.1ms)
+  Rendered reviews/_review.html.erb (4.1ms)
+  Rendered recipes/show.html.erb within layouts/application (39.8ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.3ms)
+Completed 200 OK in 208ms (Views: 201.1ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:35:07 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (0.8ms)
+  [1m[36mReservation Load (0.6ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (19.3ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.7ms)
+  Rendered reviews/_review.html.erb (2.6ms)
+  Rendered recipes/show.html.erb within layouts/application (39.1ms)
+  Rendered layouts/_nav_user.html.erb (4.6ms)
+  Rendered layouts/_nav.html.erb (5.3ms)
+Completed 200 OK in 299ms (Views: 289.6ms | ActiveRecord: 4.5ms)
+
+
+Started GET "/cancel_reservation?id=6" for 127.0.0.1 at 2019-06-14 16:35:12 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mReservation Load (5.8ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:35:12 UTC], ["id", 1]]
+  [1m[35m (14.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:35:12 UTC], ["id", 6]]
+  [1m[35m (13.3ms)[0m  [1m[35mCOMMIT[0m
+Completed 500 Internal Server Error in 56ms (ActiveRecord: 36.3ms)
+
+
+  
+NoMethodError (undefined method `[]=' for nil:NilClass):
+  
+app/controllers/reservations_controller.rb:27:in `cancel_reservation'
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (2.4ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.5ms)
+  Rendering /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /home/serban/.rvm/gems/ruby-2.4.2/gems/actionpack-5.0.2/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (17.9ms)
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:35:17 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.1ms)
+  [1m[36mReservation Load (1.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (40.3ms)
+  [1m[36mReview Load (0.5ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (3.5ms)
+  Rendered reviews/_review.html.erb (6.3ms)
+  Rendered recipes/show.html.erb within layouts/application (67.3ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 235ms (Views: 222.1ms | ActiveRecord: 6.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:15 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (13.2ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (22.9ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (6.5ms)
+  Rendered reviews/_review.html.erb (8.6ms)
+  Rendered recipes/show.html.erb within layouts/application (48.1ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.5ms)
+Completed 200 OK in 236ms (Views: 213.2ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:18 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (0.7ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (11.8ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.6ms)
+  Rendered reviews/_review.html.erb (2.3ms)
+  Rendered recipes/show.html.erb within layouts/application (27.0ms)
+  Rendered layouts/_nav_user.html.erb (3.6ms)
+  Rendered layouts/_nav.html.erb (5.1ms)
+Completed 200 OK in 289ms (Views: 281.0ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:36:21 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (26.2ms)
+  Rendered layouts/_nav_user.html.erb (1.5ms)
+  Rendered layouts/_nav.html.erb (2.3ms)
+Completed 200 OK in 205ms (Views: 201.8ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:22 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (17.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (7.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (10.6ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (33.1ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (5.7ms)
+  Rendered reviews/_review.html.erb (7.7ms)
+  Rendered recipes/show.html.erb within layouts/application (85.6ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 348ms (Views: 304.3ms | ActiveRecord: 27.7ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:36:28 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"TgQYnB7hJg5gig7Cll9aDbf/clIeKkLEqY+0D9l5+eqUVODeWqvY1VSSr4eMxcb5bxdp1EUmMuaSfy4ChxpZzw==", "reservation"=>{"first_name"=>"2", "last_name"=>"1", "persons"=>"1", "time"=>"1", "message"=>"1"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (3.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 3], ["updated_at", 2019-06-14 13:36:28 UTC], ["id", 1]]
+  [1m[35mSQL (1.5ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "2"], ["last_name", "1"], ["persons", 1], ["time", "1"], ["message", "1"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:36:28 UTC], ["updated_at", 2019-06-14 13:36:28 UTC], ["price", 0.2e2]]
+  [1m[35m (171.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.2ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:36:28 UTC], ["final_price", 0.2e2], ["id", 7]]
+  [1m[35m (25.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 251ms (ActiveRecord: 207.4ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:28 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.7ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (16.2ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.0ms)
+  Rendered reviews/_review.html.erb (4.3ms)
+  Rendered recipes/show.html.erb within layouts/application (32.6ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 198ms (Views: 191.7ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:30 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.8ms)
+  [1m[36mReservation Load (1.0ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (17.9ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.2ms)
+  Rendered reviews/_review.html.erb (3.8ms)
+  Rendered recipes/show.html.erb within layouts/application (36.3ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 202ms (Views: 193.0ms | ActiveRecord: 4.4ms)
+
+
+Started GET "/cancel_reservation?id=7" for 127.0.0.1 at 2019-06-14 16:36:34 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"7"}
+  [1m[36mReservation Load (1.0ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:36:34 UTC], ["id", 1]]
+  [1m[35m (117.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:36:34 UTC], ["id", 7]]
+  [1m[35m (27.0ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 171ms (ActiveRecord: 150.1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:36:34 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (13.5ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 165ms (Views: 158.9ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:36:37 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (6.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (5.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (5.4ms)
+  [1m[36mReservation Load (0.8ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (28.6ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (4.5ms)
+  Rendered reviews/_review.html.erb (7.3ms)
+  Rendered recipes/show.html.erb within layouts/application (67.5ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.4ms)
+Completed 200 OK in 248ms (Views: 219.4ms | ActiveRecord: 15.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:37:00 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (0.8ms)
+  [1m[36mReservation Load (1.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (16.9ms)
+  [1m[36mReview Load (0.7ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.2ms)
+  Rendered reviews/_review.html.erb (6.9ms)
+  Rendered recipes/show.html.erb within layouts/application (37.4ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 237ms (Views: 225.5ms | ActiveRecord: 4.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:37:03 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (12.5ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 177ms (Views: 175.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:37:04 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (10.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (11.9ms)
+  [1m[36mReservation Load (3.2ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (60.3ms)
+  [1m[36mReview Load (0.5ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (8.2ms)
+  Rendered reviews/_review.html.erb (12.6ms)
+  Rendered recipes/show.html.erb within layouts/application (87.5ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 281ms (Views: 259.8ms | ActiveRecord: 17.1ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:37:15 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"NG1w3fTUTdF7WW29GBD/9nNqORFWMQWbSs/MRmEnMiPuPYifsJ6zCk9BzPgCimMCq4Iilw09dblxP1ZLP0SSBg==", "reservation"=>{"first_name"=>"1", "last_name"=>"1", "persons"=>"1", "time"=>"1", "message"=>"12"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 3], ["updated_at", 2019-06-14 13:37:15 UTC], ["id", 1]]
+  [1m[35mSQL (2.8ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "1"], ["last_name", "1"], ["persons", 1], ["time", "1"], ["message", "12"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:37:15 UTC], ["updated_at", 2019-06-14 13:37:15 UTC], ["price", 0.2e2]]
+  [1m[35m (640.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:37:15 UTC], ["final_price", 0.2e2], ["id", 8]]
+  [1m[35m (27.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 715ms (ActiveRecord: 676.8ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:37:16 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (7.8ms)
+  [1m[36mReservation Load (0.8ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (26.9ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.8ms)
+  Rendered reviews/_review.html.erb (5.0ms)
+  Rendered recipes/show.html.erb within layouts/application (54.0ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 224ms (Views: 214.3ms | ActiveRecord: 4.6ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:37:18 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.1ms)
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (17.0ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.1ms)
+  Rendered reviews/_review.html.erb (3.6ms)
+  Rendered recipes/show.html.erb within layouts/application (30.2ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 182ms (Views: 175.9ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/cancel_reservation?id=8" for 127.0.0.1 at 2019-06-14 16:37:24 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"8"}
+  [1m[36mReservation Load (1.6ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mRecipe Load (1.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (1.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:37:24 UTC], ["id", 1]]
+  [1m[35m (245.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:37:25 UTC], ["id", 8]]
+  [1m[35m (32.1ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 306ms (ActiveRecord: 285.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:37:25 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (17.3ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 176ms (Views: 171.4ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:42:35 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (1.5ms)
+  [1m[36mReservation Load (1.0ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (38.6ms)
+  [1m[36mReview Load (1.6ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (1.5ms)
+  Rendered reviews/_review.html.erb (8.1ms)
+  Rendered recipes/show.html.erb within layouts/application (73.4ms)
+  Rendered layouts/_nav_user.html.erb (1.7ms)
+  Rendered layouts/_nav.html.erb (2.8ms)
+Completed 200 OK in 278ms (Views: 264.3ms | ActiveRecord: 7.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:44:23 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (21.5ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 167ms (Views: 161.4ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:44:24 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (15.0ms)
+  [1m[36mReservation Load (0.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (28.4ms)
+  [1m[36mReview Load (0.2ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (9.5ms)
+  Rendered reviews/_review.html.erb (12.4ms)
+  Rendered recipes/show.html.erb within layouts/application (50.6ms)
+  Rendered layouts/_nav_user.html.erb (2.0ms)
+  Rendered layouts/_nav.html.erb (3.0ms)
+Completed 200 OK in 255ms (Views: 237.2ms | ActiveRecord: 6.7ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:44:30 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VSrkgDRquXO6ladUCbCZKt0u9RjUX03+rAcSEiCisx6PehzCcCBHqI6NBhETKgXeBcbuno9TPdyX94gffsETOw==", "reservation"=>{"first_name"=>"5", "last_name"=>"3", "persons"=>"3", "time"=>"3", "message"=>"3"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (5.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 1], ["updated_at", 2019-06-14 13:44:30 UTC], ["id", 1]]
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "5"], ["last_name", "3"], ["persons", 3], ["time", "3"], ["message", "3"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:44:30 UTC], ["updated_at", 2019-06-14 13:44:30 UTC], ["price", 0.2e2]]
+  [1m[35m (815.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:44:31 UTC], ["final_price", 0.6e2], ["id", 9]]
+  [1m[35m (35.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 904ms (ActiveRecord: 862.9ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:44:31 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (4.2ms)
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (16.2ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.2ms)
+  Rendered reviews/_review.html.erb (3.6ms)
+  Rendered recipes/show.html.erb within layouts/application (30.8ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 189ms (Views: 180.3ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:44:36 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (3.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (2.9ms)
+  [1m[36mReservation Load (1.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (60.2ms)
+  [1m[36mReview Load (1.1ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.5ms)
+  Rendered reviews/_review.html.erb (11.5ms)
+  Rendered recipes/show.html.erb within layouts/application (108.2ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (2.0ms)
+Completed 200 OK in 354ms (Views: 336.2ms | ActiveRecord: 10.2ms)
+
+
+Started GET "/honored_reservation?id=9" for 127.0.0.1 at 2019-06-14 16:44:39 +0300
+Processing by ReservationsController#honored_reservation as HTML
+  Parameters: {"id"=>"9"}
+  [1m[36mReservation Load (2.3ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:44:39 UTC], ["id", 1]]
+  [1m[35m (111.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.8ms)[0m  [1m[33mUPDATE "reservations" SET "honored_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["honored_reservation", true], ["updated_at", 2019-06-14 13:44:39 UTC], ["id", 9]]
+  [1m[35m (19.2ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 171ms (ActiveRecord: 137.6ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:44:39 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.9ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (2.6ms)
+  [1m[36mReservation Load (1.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (54.4ms)
+  [1m[36mReview Load (0.6ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.9ms)
+  Rendered reviews/_review.html.erb (4.5ms)
+  Rendered recipes/show.html.erb within layouts/application (81.7ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 261ms (Views: 246.9ms | ActiveRecord: 6.5ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:45:09 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VSrkgDRquXO6ladUCbCZKt0u9RjUX03+rAcSEiCisx6PehzCcCBHqI6NBhETKgXeBcbuno9TPdyX94gffsETOw==", "reservation"=>{"first_name"=>"5", "last_name"=>"3", "persons"=>"3", "time"=>"3", "message"=>"3"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.3ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 1], ["updated_at", 2019-06-14 13:45:09 UTC], ["id", 1]]
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "5"], ["last_name", "3"], ["persons", 3], ["time", "3"], ["message", "3"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:45:09 UTC], ["updated_at", 2019-06-14 13:45:09 UTC], ["price", 0.2e2]]
+  [1m[35m (696.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:45:10 UTC], ["final_price", 0.6e2], ["id", 10]]
+  [1m[35m (54.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 773ms (ActiveRecord: 754.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:45:10 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (7.8ms)
+  [1m[36mReservation Load (0.7ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (29.9ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.2ms)
+  Rendered reviews/_review.html.erb (4.3ms)
+  Rendered recipes/show.html.erb within layouts/application (50.1ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 210ms (Views: 200.0ms | ActiveRecord: 4.5ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:45:13 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.5ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (1.8ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (22.6ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.5ms)
+  Rendered reviews/_review.html.erb (2.3ms)
+  Rendered recipes/show.html.erb within layouts/application (38.7ms)
+  Rendered layouts/_nav_user.html.erb (1.3ms)
+  Rendered layouts/_nav.html.erb (2.1ms)
+Completed 200 OK in 265ms (Views: 257.7ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/honored_reservation?id=10" for 127.0.0.1 at 2019-06-14 16:45:16 +0300
+Processing by ReservationsController#honored_reservation as HTML
+  Parameters: {"id"=>"10"}
+  [1m[36mReservation Load (1.2ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 10], ["LIMIT", 1]]
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.8ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:45:16 UTC], ["id", 1]]
+  [1m[35m (357.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[33mUPDATE "reservations" SET "honored_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["honored_reservation", true], ["updated_at", 2019-06-14 13:45:17 UTC], ["id", 10]]
+  [1m[35m (21.0ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 424ms (ActiveRecord: 384.7ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:45:17 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.0ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (1.9ms)
+  [1m[36mReservation Load (1.3ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (45.9ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.8ms)
+  Rendered reviews/_review.html.erb (3.1ms)
+  Rendered recipes/show.html.erb within layouts/application (66.7ms)
+  Rendered layouts/_nav_user.html.erb (1.1ms)
+  Rendered layouts/_nav.html.erb (1.9ms)
+Completed 200 OK in 224ms (Views: 213.0ms | ActiveRecord: 5.7ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:45:22 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (1.6ms)
+  [1m[36mReservation Load (1.2ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (2.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (56.3ms)
+  [1m[36mReview Load (1.1ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (1.4ms)
+  Rendered reviews/_review.html.erb (7.5ms)
+  Rendered recipes/show.html.erb within layouts/application (92.9ms)
+  Rendered layouts/_nav_user.html.erb (1.2ms)
+  Rendered layouts/_nav.html.erb (2.6ms)
+Completed 200 OK in 354ms (Views: 337.5ms | ActiveRecord: 8.2ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:46:54 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (2.1ms)
+  [1m[36mReservation Load (1.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (66.4ms)
+  [1m[36mReview Load (0.6ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.6ms)
+  Rendered reviews/_review.html.erb (7.3ms)
+  Rendered recipes/show.html.erb within layouts/application (103.0ms)
+  Rendered layouts/_nav_user.html.erb (3.0ms)
+  Rendered layouts/_nav.html.erb (4.5ms)
+Completed 200 OK in 393ms (Views: 378.9ms | ActiveRecord: 7.3ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:46:57 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.4ms)
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (17.2ms)
+  [1m[36mReview Load (1.0ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.4ms)
+  Rendered reviews/_review.html.erb (5.1ms)
+  Rendered recipes/show.html.erb within layouts/application (30.0ms)
+  Rendered layouts/_nav_user.html.erb (1.7ms)
+  Rendered layouts/_nav.html.erb (3.3ms)
+Completed 200 OK in 215ms (Views: 210.9ms | ActiveRecord: 2.7ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:47:00 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VSrkgDRquXO6ladUCbCZKt0u9RjUX03+rAcSEiCisx6PehzCcCBHqI6NBhETKgXeBcbuno9TPdyX94gffsETOw==", "reservation"=>{"first_name"=>"5", "last_name"=>"3", "persons"=>"3", "time"=>"3", "message"=>"3"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.6ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 1], ["updated_at", 2019-06-14 13:47:00 UTC], ["id", 1]]
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "5"], ["last_name", "3"], ["persons", 3], ["time", "3"], ["message", "3"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:47:00 UTC], ["updated_at", 2019-06-14 13:47:00 UTC], ["price", 0.2e2]]
+  [1m[35m (596.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:47:00 UTC], ["final_price", 0.6e2], ["id", 11]]
+  [1m[35m (25.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 651ms (ActiveRecord: 626.9ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:47:00 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (4.9ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (21.8ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.2ms)
+  Rendered reviews/_review.html.erb (4.0ms)
+  Rendered recipes/show.html.erb within layouts/application (38.3ms)
+  Rendered layouts/_nav_user.html.erb (1.7ms)
+  Rendered layouts/_nav.html.erb (2.7ms)
+Completed 200 OK in 209ms (Views: 200.3ms | ActiveRecord: 3.1ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:47:02 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (0.8ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (2.2ms)
+  [1m[36mReservation Load (1.0ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (31.5ms)
+  [1m[36mReview Load (0.4ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.9ms)
+  Rendered reviews/_review.html.erb (3.3ms)
+  Rendered recipes/show.html.erb within layouts/application (52.8ms)
+  Rendered layouts/_nav_user.html.erb (1.6ms)
+  Rendered layouts/_nav.html.erb (2.9ms)
+Completed 200 OK in 292ms (Views: 283.0ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/honored_reservation?id=11" for 127.0.0.1 at 2019-06-14 16:47:05 +0300
+Processing by ReservationsController#honored_reservation as HTML
+  Parameters: {"id"=>"11"}
+  [1m[36mReservation Load (3.6ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mRecipe Load (2.7ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:47:05 UTC], ["id", 1]]
+  [1m[35m (34.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.8ms)[0m  [1m[33mUPDATE "reservations" SET "honored_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["honored_reservation", true], ["updated_at", 2019-06-14 13:47:06 UTC], ["id", 11]]
+  [1m[35m (11.0ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 82ms (ActiveRecord: 55.2ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:47:06 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (2.1ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (0.6ms)
+  [1m[36mReservation Load (0.5ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (26.9ms)
+  [1m[36mReview Load (0.7ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (0.6ms)
+  Rendered reviews/_review.html.erb (3.3ms)
+  Rendered recipes/show.html.erb within layouts/application (47.6ms)
+  Rendered layouts/_nav_user.html.erb (1.4ms)
+  Rendered layouts/_nav.html.erb (2.2ms)
+Completed 200 OK in 231ms (Views: 212.9ms | ActiveRecord: 7.1ms)
+
+
+Started POST "/recipes/1/reservations" for 127.0.0.1 at 2019-06-14 16:48:14 +0300
+Processing by ReservationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VSrkgDRquXO6ladUCbCZKt0u9RjUX03+rAcSEiCisx6PehzCcCBHqI6NBhETKgXeBcbuno9TPdyX94gffsETOw==", "reservation"=>{"first_name"=>"5", "last_name"=>"3", "persons"=>"3", "time"=>"3", "message"=>"3"}, "commit"=>"Create Reservation", "recipe_id"=>"1"}
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 1], ["updated_at", 2019-06-14 13:48:14 UTC], ["id", 1]]
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "reservations" ("first_name", "last_name", "persons", "time", "message", "user_id", "recipe_id", "created_at", "updated_at", "price") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["first_name", "5"], ["last_name", "3"], ["persons", 3], ["time", "3"], ["message", "3"], ["user_id", 4], ["recipe_id", 1], ["created_at", 2019-06-14 13:48:14 UTC], ["updated_at", 2019-06-14 13:48:14 UTC], ["price", 0.2e2]]
+  [1m[35m (1185.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[33mUPDATE "reservations" SET "updated_at" = $1, "final_price" = $2 WHERE "reservations"."id" = $3[0m  [["updated_at", 2019-06-14 13:48:15 UTC], ["final_price", 0.6e2], ["id", 12]]
+  [1m[35m (25.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/recipes/1
+Completed 302 Found in 1237ms (ActiveRecord: 1215.8ms)
+
+
+Started GET "/recipes/1" for 127.0.0.1 at 2019-06-14 16:48:15 +0300
+Processing by RecipesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mRecipe Load (1.2ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering recipes/show.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered reservations/_form.html.erb (3.5ms)
+  [1m[36mReservation Load (0.4ms)[0m  [1m[34mSELECT "reservations".* FROM "reservations" WHERE "reservations"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  Rendered reservations/_reservation.html.erb (16.7ms)
+  [1m[36mReview Load (0.3ms)[0m  [1m[34mSELECT "reviews".* FROM "reviews" WHERE "reviews"."recipe_id" = 1 ORDER BY created_at DESC[0m
+  Rendered reviews/_form.html.erb (2.0ms)
+  Rendered reviews/_review.html.erb (3.4ms)
+  Rendered recipes/show.html.erb within layouts/application (29.2ms)
+  Rendered layouts/_nav_user.html.erb (1.9ms)
+  Rendered layouts/_nav.html.erb (3.4ms)
+Completed 200 OK in 394ms (Views: 384.4ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/cancel_reservation?id=12" for 127.0.0.1 at 2019-06-14 16:48:19 +0300
+Processing by ReservationsController#cancel_reservation as HTML
+  Parameters: {"id"=>"12"}
+  [1m[36mReservation Load (0.6ms)[0m  [1m[34mSELECT  "reservations".* FROM "reservations" WHERE "reservations"."id" = $1 LIMIT $2[0m  [["id", 12], ["LIMIT", 1]]
+  [1m[36mRecipe Load (0.4ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE "recipes"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[33mUPDATE "recipes" SET "no_people" = $1, "updated_at" = $2 WHERE "recipes"."id" = $3[0m  [["no_people", 4], ["updated_at", 2019-06-14 13:48:19 UTC], ["id", 1]]
+  [1m[35m (12.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "reservations" SET "cancel_reservation" = $1, "updated_at" = $2 WHERE "reservations"."id" = $3[0m  [["cancel_reservation", true], ["updated_at", 2019-06-14 13:48:19 UTC], ["id", 12]]
+  [1m[35m (14.5ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 50ms (ActiveRecord: 28.9ms)
+
+
+Started GET "/" for 127.0.0.1 at 2019-06-14 16:48:19 +0300
+Processing by RecipesController#index as HTML
+  Rendering recipes/index.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%'))[0m
+  [1m[36mRecipe Load (0.7ms)[0m  [1m[34mSELECT  "recipes".* FROM "recipes" WHERE (lower(city) LIKE lower('%%') OR lower(city) LIKE lower('%%')) LIMIT $1 OFFSET $2[0m  [["LIMIT", 8], ["OFFSET", 0]]
+  Rendered recipes/index.html.erb within layouts/application (18.9ms)
+  Rendered layouts/_nav_user.html.erb (1.9ms)
+  Rendered layouts/_nav.html.erb (2.9ms)
+Completed 200 OK in 222ms (Views: 218.0ms | ActiveRecord: 1.6ms)
+
+

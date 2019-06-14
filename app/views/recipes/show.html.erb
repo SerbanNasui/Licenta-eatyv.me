@@ -5,9 +5,16 @@
   </div>
 </div>
 <%end%>
+<script type="text/javascript">
 
+</script>
 
 <p id="notice"><%= notice %></p>
+<div id="flash">
+  <% if flash[:honored_reservation] %>
+    <p><%= flash[:honored_reservation] %></p>
+  <% end %>
+</div>
 <div class="inner_recipe_background">
   <div class="corners">
     <p>

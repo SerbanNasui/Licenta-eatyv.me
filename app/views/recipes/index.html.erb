@@ -68,6 +68,11 @@
 
 <% if user_signed_in? %>
   <br>
+  <div id="flash">
+    <% if flash[:cancel_reservation] %>
+        <p><%= flash[:cancel_reservation] %></p>
+    <% end %>
+  </div>
   <div class="small-6 small-centered columns">
     <div class="white_background no-padding">
       <div class="input-group input-group-rounded">

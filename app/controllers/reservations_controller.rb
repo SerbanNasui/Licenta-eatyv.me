@@ -24,6 +24,7 @@ class ReservationsController < ApplicationController
     recipe = Recipe.find(reservation.recipe_id)
     recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
     reservation.update_attributes(cancel_reservation: true)
+    flash[:cancel_reservation] = "Reservation was successfully canceled!"
     redirect_to root_path
   end
 
@@ -32,6 +33,7 @@ class ReservationsController < ApplicationController
     recipe = Recipe.find(reservation.recipe_id)
     recipe.update_attributes(no_people: recipe.no_people + reservation.persons)
     reservation.update_attributes(honored_reservation: true)
+    flash[:honored_reservation] = "Reservation was successfully honored!"
     redirect_to recipe_path(recipe.id)
   end
 
