@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20190613220310) do
     t.integer  "user_id"
     t.string   "image"
     t.string   "date"
-    t.decimal  "time"
+    t.string   "time"
     t.string   "street"
     t.string   "city"
     t.string   "location"

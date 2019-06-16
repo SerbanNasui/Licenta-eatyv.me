@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get 'your_reservations', to: 'reservations#your_reservations'
 
+  get 'back_recipe_to_reservation', to: 'reservations#back_recipe_to_reservation'
+
   resources :recipes do
     resources :reservations
     resources :reviews

@@ -3,6 +3,10 @@
 <% unless current_user.blank? %>
     <% @own_reservations.each do |reservations| %>
         <div class='callout warning'>
+        
+        <p>Recipe Title: <b><%= reservations.recipe.title %></b></p>
+        <p>Chef email:<b> <%= reservations.recipe.user.email %></b></p>
+        <br><p><i>Personal information about reservation</i></p><hr>
         <p>First Name: <b><%= reservations.first_name %></b></p>
         <p>Last Name: <b><%= reservations.last_name %></b></p>
         <p>Number of persons: <b><%= reservations.persons %></b></p>
@@ -10,8 +14,9 @@
         <p><em><%= reservations.message %></em></p>
         <p><%= reservations.user.email %> (<%= reservations.created_at.strftime("%Y-%d-%m") %>)</p>
         <p>Total: <b><%= reservations.final_price %></b></p>
-
         
+
+        <%= link_to '&#x276e;'.html_safe, back_recipe_to_reservation_path(id: reservations.id), class: 'hollow button secondary', target: '_blank' %>
 
         <% if reservations&.honored_reservation == true %>
           <b><i><font color="green">Honored reservation!</font></i></b>

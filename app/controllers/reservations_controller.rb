@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :find_recipe, except: [ :cancel_reservation, :honored_reservation, :your_reservations]
+  before_action :find_recipe, except: [ :cancel_reservation, :honored_reservation, :your_reservations, :back_recipe_to_reservation]
 
   def create
     @reservation = @recipe.reservations.new(reservation_params)
@@ -39,6 +39,12 @@ class ReservationsController < ApplicationController
 
   def your_reservations
     @own_reservations = current_user.reservations 
+  end
+
+  def back_recipe_to_reservation
+    reservation = Reservation.find(params[:id])
+    recipe = Recipe.find(reservation.recipe_id)
+    redirect_to recipe_path(recipe.id)
   end
 
   private
