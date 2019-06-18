@@ -6,6 +6,10 @@ class Recipe < ApplicationRecord
     mount_uploader :image, ImageUploader
 end
 
+#def to_s
+ # address = recipe.location + " " + recipe.city + " " + recipe.street
+#end
+
 def self.search(search)
     if search
       find(:all, :conditions => ['name LIKE ?', "%#{search}%"])
@@ -13,4 +17,3 @@ def self.search(search)
       find(:all)
     end
 end
-
