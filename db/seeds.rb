@@ -7,6 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 User.create!(email: 'chef_andrei@gmail.com', password: '123456', password_confirmation: '123456')
-User.create!(email: 'chef_ionut@gmail.com', password: '123456', password_confirmation: '123456')
+User.create!(email: 'chef_serban@gmail.com', password: '123456', password_confirmation: '123456')
 User.create!(email: 'user_mihai@gmail.com', password: '123456', password_confirmation: '123456')
 User.create!(email: 'user_ioana@gmail.com', password: '123456', password_confirmation: '123456')
