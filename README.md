@@ -1,18 +1,18 @@
 # eatyv.me
-If you clone this repository on your system you have to know:
+Pentru a instala Ruby on Rails respectati pasii de pe urmatorul site: https://gorails.com/setup/ubuntu/18.04
 
-Ruby version ruby 2.4.2
+Ruby version 2.4.2
 
-Rails veresion rails 5.0.2
+Rails veresion 5.0.2
 
-System dependencies cd into project folder and run: bundle install
+Pentru baza de date, setati PostgreSQL.
 
-Configuration Create a file in /config folder and name it: database.yml, copy content from database.example.yml and add yor credentails to host, username and password.
+In terminal setati ruta proiectului si rulati: bundle install
 
-Database creation run: rails db:create
+Configurati baza de date astfel: /config/database.yml, copiati continutul din database.example.yml si adaugati in baza de date hostul, username-ul si parola.
 
-Database initialization run: rails db:migrate
+Pentru crearea bazei de date rulati in terminal: rake db:create
 
-How to run the test suite run: rake test to run all tests
+Pentru initializarea bazei de date rulati rake db:migrate
 
-Services (job queues, cache servers, search engines, etc.)
+Pentru popularea bazei de date cu utilizatori rulati: rake db:seed
